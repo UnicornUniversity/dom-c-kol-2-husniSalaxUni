@@ -11,13 +11,13 @@
  * @returns {string} containing number converted to output system
  */
 export function main(inputNumber, inputNumberSystem, outputNumberSystem) {
-  const DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const normalized = inputNumber.trim().toUpperCase();
 
   // Convert input number to decimal
   let decimalValue = 0;
   for (const digit of normalized) {
-    const digitValue = DIGITS.indexOf(digit);
+    const digitValue = digits.indexOf(digit);
     decimalValue = decimalValue * inputNumberSystem + digitValue;
   }
 
@@ -28,7 +28,7 @@ export function main(inputNumber, inputNumberSystem, outputNumberSystem) {
   let remaining = decimalValue;
   while (remaining > 0) {
     const remainder = remaining % outputNumberSystem;
-    dtoOut = DIGITS[remainder] + dtoOut;
+    dtoOut = digits[remainder] + dtoOut;
     remaining = Math.floor(remaining / outputNumberSystem);
   }
 
