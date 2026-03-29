@@ -11,8 +11,27 @@
  * @returns {string} containing number converted to output system
  */
 export function main(inputNumber, inputNumberSystem, outputNumberSystem) {
-  //TODO code
-  //let dtoOut = exMain(inputNumber, inputNumberSystem, outputNumberSystem);
+  const DIGITS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const normalized = inputNumber.trim().toUpperCase();
+
+  // Convert input number to decimal
+  let decimalValue = 0;
+  for (const digit of normalized) {
+    const digitValue = DIGITS.indexOf(digit);
+    decimalValue = decimalValue * inputNumberSystem + digitValue;
+  }
+
+  // Convert decimal to output number system
+  if (decimalValue === 0) return "0";
+
+  let dtoOut = "";
+  let remaining = decimalValue;
+  while (remaining > 0) {
+    const remainder = remaining % outputNumberSystem;
+    dtoOut = DIGITS[remainder] + dtoOut;
+    remaining = Math.floor(remaining / outputNumberSystem);
+  }
+
   return dtoOut;
 }
 
@@ -22,7 +41,7 @@ export function main(inputNumber, inputNumberSystem, outputNumberSystem) {
  * @returns {Array} array of numbers refering to permitted input systems
  */
 export function permittedInputSystems() {
-	return [10, 2];
+	return [10];   // Only decimal (base 10) numbers can be used as input
 }
 
 /**
@@ -31,5 +50,11 @@ export function permittedInputSystems() {
  * @returns {Array} array of numbers refering to permitted output systems
  */
 export function permittedOutputSystems() {
-	return [10, 2];
+	return [16];   // Only hexadecimal (base 16) numbers can be used as output
 }
+
+
+// Tried to check by node js run:
+// console.log(main("255", 10, 16));   // Expected: FF
+// console.log(main("0", 10, 16));     // Expected: 0
+// console.log(main("4096", 10, 16));  // Expected: 1000
